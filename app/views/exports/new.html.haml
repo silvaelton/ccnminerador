@@ -1,5 +1,9 @@
-%h1 CCN Minerador
-= simple_form_for @export do |f|
-  = f.input :file, as: :file 
-  %br/
-  = f.submit "Processar arquivo", data: { disable_with: "Aguarde o processamento..."}
+
+.container 
+  %h1 CCN Minerador
+  .card
+    .card-body
+      = simple_form_for @export do |f|
+        = f.input :file, as: :file 
+        %br/
+        = f.submit "Processar arquivo", data: { disable_with: "Aguarde o processamento..."}, class: 'btn btn-success'

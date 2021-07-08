@@ -53,6 +53,7 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
 end
 
+gem 'bootstrap', '~> 5.0.1'
 
 group :production do
   gem 'pg'

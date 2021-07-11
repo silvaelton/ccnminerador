@@ -21,16 +21,15 @@ class Export
       csv << ['data','nome','cpf','telefone','email','cpf_valido']
       file_splited.each_with_index do |line, index|
         date  = line.split("Delivery-date:")[1][6..25] rescue 'nao identificada'
-        table = line.split('<table>')[1] rescue nil
+       
+        table_split = line.split("Nome: ")[2].split("\r\n") rescue nil
     
-        next if table.nil?
+        next if table_split.nil? || date.nil?
         
-        table_split = table.split("\r\n") rescue nil
-    
-        name  = "#{table_split[3].gsub!(re, '').strip}" rescue 'nao informado'
-        cpf   = "#{table_split[7].gsub!(re, '').strip.gsub("-","").gsub(" ","").gsub(".","").gsub("i","")}" rescue 'nao informado'
-        tel   = "#{table_split[11].gsub!(re, '').strip}" rescue 'nao informado'
-        email = "#{table_split[15].gsub!(re, '').strip}" rescue 'nao informado'
+        name  = "#{table_split[0].strip}" rescue 'nao informado'
+        cpf   = "#{table_split[1].gsub!('CPF: ', '').gsub("-","").gsub(" ","").gsub(".","").gsub("i","").strip}" rescue 'nao informado'
+        tel   = "#{table_split[2].gsub!('Celular com DDD: ','').strip}" rescue 'nao informado'
+        email = "#{table_split[3].gsub!('Email: ', '').strip}" rescue 'nao informado'
     
         @row = "#{name}&#{cpf}&#{tel}&#{email}\n" rescue nil
 

@@ -21,6 +21,6 @@ class ExportsController < ApplicationController
   private
 
   def set_params
-    params.fetch(:export, {}).permit(:file)
+    params.fetch(:export, {}).permit(:file, :version_one)
   end
 end

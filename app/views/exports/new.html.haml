@@ -4,6 +4,11 @@
   .card
     .card-body
       = simple_form_for @export do |f|
-        = f.input :file, as: :file 
+        .row
+          .col-md-4
+            = f.input :version_one, as: :select, label: "Selecione a versão", collection: {"Versão Atualizada" => 0, "Versão antiga" => 1}, selected: 0 
+        .row.mt-2
+          .col-md-4
+            = f.input :file, as: :file, label: false
         %br/
         = f.submit "Processar arquivo", data: { disable_with: "Aguarde o processamento..."}, class: 'btn btn-success'

@@ -23,17 +23,18 @@ class Export
       @row =""
       
       CSV.generate(headers: false, col_sep: ";") do |csv|
-        csv << ['data','nome','telefone']
+        csv << ['data','nome','cpf','telefone']
         file_splited.each_with_index do |line, index|
           date  = line[6..25] rescue nil
           name  = line.split("Nome: ")[1].split("</p>")[0] rescue nil
+          cpf   = line.split("CPF: ")[1].split("</p>")[0] rescue nil
           tel   = line.split("Celular com DDD:")[1].split("</div>")[0].gsub(".","").gsub(" ","").gsub("(","").gsub(")","").gsub("-","") rescue nil
           
           next if (date.nil? || name.nil?) 
           next if name.length > 200
           @row = "#{name.to_s.mb_chars.upcase}&#{tel}\n" rescue nil
 
-          csv << [date, name.to_s.mb_chars.upcase, tel]
+          csv << [date, name.to_s.mb_chars.upcase, cpf, tel]
         end
         
       end

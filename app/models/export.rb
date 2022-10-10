@@ -32,7 +32,7 @@ class Export
           
           next if (date.nil? || name.nil?) 
           next if name.length > 200
-          @row = "#{name.to_s.mb_chars.upcase}&#{tel}\n" rescue nil
+          @row = "#{name.to_s.upcase}&#{tel.gsub('</div>','')}\n" rescue nil
 
           csv << [date, name.to_s.mb_chars.upcase, cpf, tel]
         end

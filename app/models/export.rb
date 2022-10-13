@@ -27,12 +27,13 @@ class Export
         file_splited.each_with_index do |line, index|
           next if index == 0
           date  = line[5..24] rescue nil
-          name  = line.split("Nome: ")[1].split("</p>")[0] rescue nil
+          name  = line.split("Nome: ")[1].split("</p>")[0].to_s.mb_chars.downcase rescue nil
           cpf   = line.split("CPF: ")[1].split("</p>")[0].to_s.strip.gsub(";","") rescue nil
           if cpf.nil?
             cpf = line.split("CPF:&nbsp")[1].split("</p>")[0].to_s.strip.gsub(";","") rescue nil
           end
-          tel   = line.split("Celular com DDD:")[1].split("</p>")[0].strip rescue nil
+          
+          tel   = line.split("Celular com DDD:")[1].split("</p>")[0].strip.to_s.gsub("</div>", "") rescue nil
           
           next if (date.nil? || name.nil?) 
           next if name.length > 200

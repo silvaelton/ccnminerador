@@ -13,8 +13,8 @@ class Export
       process_file_older!
     else
 
-      read_file = File.read(self.file.tempfile) 
-    
+      read_file = File.open(self.file.tempfile).read.encode!('UTF-8', 'UTF-8', :invalid => :replace)
+      
       file_splited = read_file.to_s.split("Delivery-date: ")
 
       array = []
@@ -27,7 +27,7 @@ class Export
         file_splited.each_with_index do |line, index|
           next if index == 0
           date  = line[5..24] rescue nil
-          name  = line.split("Nome: ")[1].split("</p>")[0].to_s.mb_chars.downcase rescue nil
+          name  = line.split("Nome: ")[1].split("</p>")[0].to_s.downcase rescue nil
           cpf   = line.split("CPF: ")[1].split("</p>")[0].to_s.strip.gsub(";","") rescue nil
           if cpf.nil?
             cpf = line.split("CPF:&nbsp")[1].split("</p>")[0].to_s.strip.gsub(";","") rescue nil
@@ -39,7 +39,7 @@ class Export
           next if name.length > 200
           @row = "#{name.to_s.upcase}&#{tel.gsub('</div>','')}\n" rescue nil
 
-          csv << [date, name.to_s.mb_chars.upcase, cpf, tel]
+          csv << [date, name.to_s.upcase, cpf, tel]
         end
         
       end

@@ -29,11 +29,12 @@ class Export
           date  = line[5..24] rescue nil
           name  = line.split("<p>Nome: ")[1].split("</p>")[0].to_s.downcase rescue nil
           cpf   = line.split("<p>CPF: ")[1].split("</p>")[0].to_s.strip.gsub(";","") rescue nil
+
           if cpf.nil?
             cpf = line.split("<p>CPF:&nbsp")[1].split("</p>")[0].to_s.strip.gsub(";","") rescue nil
           end
           
-          tel   = line.split("<div>Celular com DDD:")[1].split("</p>")[0].strip.to_s.gsub("</div>", "") rescue nil
+          tel   = line.split("<p>Celular com DDD:")[1].split("</p>")[0].strip.to_s.gsub("</div>", "") rescue nil
           
           next if (date.nil? || name.nil?) 
           next if name.length > 200

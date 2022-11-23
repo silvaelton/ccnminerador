@@ -24,21 +24,20 @@ class Export
       CSV.generate(headers: false, col_sep: ";") do |csv|
         csv << ['data','nome','cpf','telefone']
         file_splited.each_with_index do |line, index|
-  
           next if index == 0
           date  = line[5..24] rescue nil
-          name  = line.split("<p>Nome: ")[1].split("</p>")[0].to_s.downcase rescue nil
-          cpf   = line.split("<p>CPF: ")[1].split("</p>")[0].to_s.strip.gsub(";","") rescue nil
-
+          name  = line.split("Nome: ")[1].split("\r")[0].to_s.strip.downcase rescue nil
+          cpf   = line.split("CPF: ")[1].split("\r")[0].to_s.strip.gsub(";","") rescue nil
+          
           if cpf.nil?
             cpf = line.split("<p>CPF:&nbsp")[1].split("</p>")[0].to_s.strip.gsub(";","") rescue nil
           end
           
-          tel   = line.split("<p>Celular com DDD:")[1].split("</p>")[0].strip.to_s.gsub("</div>", "") rescue nil
-          
+          tel   = line.split("Telefone:")[1].split("\r")[0].strip.to_s rescue nil
+       
           next if (date.nil? || name.nil?) 
           next if name.length > 200
-          @row = "#{name.to_s.upcase}&#{tel.gsub('</div>','')}\n" rescue nil
+          @row = "#{name.to_s.upcase}&#{tel}\n" rescue nil
 
           csv << [date, name.to_s.upcase, cpf, tel]
         end

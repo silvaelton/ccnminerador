@@ -35,6 +35,7 @@ class Export
           
           tel   = line.split("Telefone:")[1].split("\r")[0].strip.to_s rescue nil
        
+          
           next if (date.nil? || name.nil?) 
           next if name.length > 200
           @row = "#{name.to_s.upcase}&#{tel}\n" rescue nil
